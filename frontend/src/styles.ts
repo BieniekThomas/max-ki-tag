@@ -3,8 +3,9 @@ export const styles = {
     position: "relative",
     width: "100vw",
     height: "100vh",
-    overflow: "hidden",
+    overflow: "scroll",
     background: "#faf7f2",
+    display: "flex",
   },
   gridItem: {
     position: "absolute",
@@ -18,7 +19,7 @@ export const styles = {
     boxShadow: "0 10px 30px rgba(0,0,0,.08)",
   },
   thinking: {
-    color: "#32ff32",
+    color: "#000",
   },
   answer: {
     color: "#84c1ff",

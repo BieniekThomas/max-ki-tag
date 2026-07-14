@@ -5,7 +5,7 @@ import {
 import { styles } from "./styles.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
 // import io from "socket.io-client";
-import { PROMPTS } from "./prompts.ts";
+import { PROMPTS, SYSTEM_PROMPT } from "./prompts.ts";
 import { AutoScroll } from "./components/Autoscroll.tsx";
 import { motion } from "framer-motion";
 
@@ -62,8 +62,7 @@ export default function App() {
     const messages = [
       {
         role: "system",
-        content:
-          "You are continuously observing a webcam. Describe only changes since the previous frame unless asked otherwise.",
+        content: SYSTEM_PROMPT,
       },
       {
         role: "user",
@@ -74,8 +73,7 @@ export default function App() {
     setMessages([
       {
         role: "system",
-        content:
-          "You are continuously observing a webcam. Describe only changes since the previous frame unless asked otherwise.",
+        content: SYSTEM_PROMPT,
       },
       {
         role: "user",
@@ -117,7 +115,6 @@ export default function App() {
 
         try {
           const json = JSON.parse(line);
-
           if (json.message?.thinking) {
             setThinking((prev) => prev + json.message.thinking);
           }
@@ -163,6 +160,8 @@ export default function App() {
 
   return (
     <div style={styles.container}>
+      <AutoScroll style={{ width: "50%" }}>Thinking: {thinking}</AutoScroll>
+      <AutoScroll style={{ width: "50%" }}>Answer: {answer}</AutoScroll>
       <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x1),
@@ -183,7 +182,7 @@ export default function App() {
           />
         </AutoScroll>
       </motion.div>
-      <motion.div
+      {/* <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x2),
           y: RandomPositionsArray.map((pos) => pos.y2),
@@ -199,8 +198,8 @@ export default function App() {
         <AutoScroll style={styles.gridItem}>
           <div style={styles.prompt}>Prompt: {prompt}</div>
         </AutoScroll>
-      </motion.div>
-      <motion.div
+      </motion.div> */}
+      {/* <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x3),
           y: RandomPositionsArray.map((pos) => pos.y3),
@@ -219,8 +218,8 @@ export default function App() {
             alt="Webcam Capture"
           />
         </AutoScroll>
-      </motion.div>
-      <motion.div
+      </motion.div> */}
+      {/* <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x4),
           y: RandomPositionsArray.map((pos) => pos.y4),
@@ -236,8 +235,8 @@ export default function App() {
         <AutoScroll style={styles.gridItem}>
           <div style={styles.thinking}>Thinking: {thinking}</div>
         </AutoScroll>
-      </motion.div>
-      <motion.div
+      </motion.div> */}
+      {/* <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x5),
           y: RandomPositionsArray.map((pos) => pos.y5),
@@ -253,8 +252,8 @@ export default function App() {
         <AutoScroll style={styles.gridItem}>
           <div style={styles.answer}>Answer: {answer}</div>
         </AutoScroll>
-      </motion.div>
-      <motion.div
+      </motion.div> */}
+      {/* <motion.div
         animate={{
           x: RandomPositionsArray.map((pos) => pos.x6),
           y: RandomPositionsArray.map((pos) => pos.y6),
@@ -270,7 +269,7 @@ export default function App() {
         <AutoScroll style={styles.gridItem}>
           {JSON.stringify(messages, null, 2)}
         </AutoScroll>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }
