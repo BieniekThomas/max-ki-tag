@@ -147,7 +147,13 @@ export default function App() {
       </AutoScroll>
       <AutoScroll style={{ width: "40%", padding: "2rem" }}>
         {webcamImage && (
-          <img src={`data:image/[type];base64,${webcamImage}`} alt="Webcam" />
+          <div>
+            <img
+              src={`data:image/[type];base64,${webcamImage}`}
+              alt="Webcam"
+              style={{ width: "100%" }}
+            />
+          </div>
         )}
         <b>Answer:</b> {answer}
       </AutoScroll>
@@ -159,10 +165,12 @@ export default function App() {
           overflow: "auto",
         }}
       >
-        <WebcamComponent
-          ref={webcamRef}
-          onScreenshot={(imageSrc) => setWebcamImage(imageSrc)}
-        />
+        <div>
+          <WebcamComponent
+            ref={webcamRef}
+            onScreenshot={(imageSrc) => setWebcamImage(imageSrc)}
+          />
+        </div>
         {messages.map((msg, index) => (
           <div key={index}>
             <b>{msg.role}:</b> {msg.content}
