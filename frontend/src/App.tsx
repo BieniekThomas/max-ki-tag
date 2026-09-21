@@ -5,7 +5,6 @@ import {
 import { styles } from "./styles.ts";
 import { useEffect, useRef, useState } from "react";
 import "./global.css";
-// import io from "socket.io-client";
 import { PROMPTS, SYSTEM_PROMPT } from "./prompts.ts";
 import { AutoScroll } from "./components/Autoscroll.tsx";
 
