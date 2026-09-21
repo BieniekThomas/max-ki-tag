@@ -32,4 +32,7 @@ export const styles = {
     backgroundColor: "#0d1117",
     padding: "10px",
   },
+  video: {
+    width: "100% !important",
+  },
 } as const;

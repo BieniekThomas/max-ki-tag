@@ -3,11 +3,11 @@ import {
   WebcamComponentHandle,
 } from "./components/Webcam.tsx";
 import { styles } from "./styles.ts";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import "./global.css";
 // import io from "socket.io-client";
 import { PROMPTS, SYSTEM_PROMPT } from "./prompts.ts";
 import { AutoScroll } from "./components/Autoscroll.tsx";
-import { motion } from "framer-motion";
 
 const OLLAMA_BASE_URL = "http://localhost:11434";
 
@@ -20,23 +20,6 @@ export default function App() {
   );
   const [webcamImage, setWebcamImage] = useState<string | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
-
-  const RandomPositionsArray = useMemo(() => {
-    return Array.from({ length: 20 }, () => ({
-      x1: Math.floor(Math.random() * 1920),
-      y1: Math.floor(Math.random() * 1080),
-      x2: Math.floor(Math.random() * 1920),
-      y2: Math.floor(Math.random() * 1080),
-      x3: Math.floor(Math.random() * 1920),
-      y3: Math.floor(Math.random() * 1080),
-      x4: Math.floor(Math.random() * 1920),
-      y4: Math.floor(Math.random() * 1080),
-      x5: Math.floor(Math.random() * 1920),
-      y5: Math.floor(Math.random() * 1080),
-      x6: Math.floor(Math.random() * 1920),
-      y6: Math.floor(Math.random() * 1080),
-    }));
-  }, []);
 
   function generateRandomPrompt() {
     const randomPrompt = PROMPTS[Math.floor(Math.random() * PROMPTS.length)];
@@ -160,116 +143,33 @@ export default function App() {
 
   return (
     <div style={styles.container}>
-      <AutoScroll style={{ width: "50%" }}>Thinking: {thinking}</AutoScroll>
-      <AutoScroll style={{ width: "50%" }}>Answer: {answer}</AutoScroll>
-      <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x1),
-          y: RandomPositionsArray.map((pos) => pos.y1),
-          rotate: [0, 1, -1, 0.5, 0],
+      <AutoScroll style={{ width: "40%", padding: "2rem" }}>
+        <b>Reasoning:</b> {thinking}
+      </AutoScroll>
+      <AutoScroll style={{ width: "40%", padding: "2rem" }}>
+        {webcamImage && (
+          <img src={`data:image/[type];base64,${webcamImage}`} alt="Webcam" />
+        )}
+        <b>Answer:</b> {answer}
+      </AutoScroll>
+      <div
+        style={{
+          width: "20%",
+          padding: "2rem",
+          height: "100vh",
+          overflow: "auto",
         }}
-        transition={{
-          duration: 500,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
       >
-        <AutoScroll>
-          <WebcamComponent
-            ref={webcamRef}
-            onScreenshot={(imageSrc) => setWebcamImage(imageSrc)}
-          />
-        </AutoScroll>
-      </motion.div>
-      {/* <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x2),
-          y: RandomPositionsArray.map((pos) => pos.y2),
-          rotate: [0, 1, -1, 0.5, 0],
-        }}
-        transition={{
-          duration: 213,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
-      >
-        <AutoScroll style={styles.gridItem}>
-          <div style={styles.prompt}>Prompt: {prompt}</div>
-        </AutoScroll>
-      </motion.div> */}
-      {/* <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x3),
-          y: RandomPositionsArray.map((pos) => pos.y3),
-          rotate: [0, 1, -1, 0.5, 0],
-        }}
-        transition={{
-          duration: 201,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
-      >
-        <AutoScroll style={styles.gridItem}>
-          <img
-            src={`data:image/jpeg;base64,${webcamImage}`}
-            alt="Webcam Capture"
-          />
-        </AutoScroll>
-      </motion.div> */}
-      {/* <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x4),
-          y: RandomPositionsArray.map((pos) => pos.y4),
-          rotate: [0, 1, -1, 0.5, 0],
-        }}
-        transition={{
-          duration: 193,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
-      >
-        <AutoScroll style={styles.gridItem}>
-          <div style={styles.thinking}>Thinking: {thinking}</div>
-        </AutoScroll>
-      </motion.div> */}
-      {/* <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x5),
-          y: RandomPositionsArray.map((pos) => pos.y5),
-          rotate: [0, 1, -1, 0.5, 0],
-        }}
-        transition={{
-          duration: 240,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
-      >
-        <AutoScroll style={styles.gridItem}>
-          <div style={styles.answer}>Answer: {answer}</div>
-        </AutoScroll>
-      </motion.div> */}
-      {/* <motion.div
-        animate={{
-          x: RandomPositionsArray.map((pos) => pos.x6),
-          y: RandomPositionsArray.map((pos) => pos.y6),
-          rotate: [0, 1, -1, 0.5, 0],
-        }}
-        transition={{
-          duration: 234,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={styles.gridItem}
-      >
-        <AutoScroll style={styles.gridItem}>
-          {JSON.stringify(messages, null, 2)}
-        </AutoScroll>
-      </motion.div> */}
+        <WebcamComponent
+          ref={webcamRef}
+          onScreenshot={(imageSrc) => setWebcamImage(imageSrc)}
+        />
+        {messages.map((msg, index) => (
+          <div key={index}>
+            <b>{msg.role}:</b> {msg.content}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
