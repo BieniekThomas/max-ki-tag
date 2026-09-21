@@ -171,11 +171,17 @@ export default function App() {
             onScreenshot={(imageSrc) => setWebcamImage(imageSrc)}
           />
         </div>
-        {messages.map((msg, index) => (
-          <div key={index}>
-            <b>{msg.role}:</b> {msg.content}
+        {messages[1]?.content && (
+          <div>
+            <b>Prompt:</b> {messages[1]?.content}
           </div>
-        ))}
+        )}
+        <br />
+        {messages[0]?.content && (
+          <div>
+            <b>System:</b> {messages[0]?.content}
+          </div>
+        )}
       </div>
     </div>
   );
